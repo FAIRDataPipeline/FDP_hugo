@@ -1,8 +1,10 @@
 <table>
     <tbody>
-    {{ $url := "static/csv/repository_status.csv" }}
+    {{ $filePath := "csv/repository_status.csv" }}
     {{ $sep := "," }}
-    {{ range $i, $r := getCSV $sep $url }}
+    {{ $csvFile := resources.Get $filePath }}
+    {{ $csv := $csvFile | transform.Unmarshal (dict "delimiter" $sep) }}
+    {{ range $i, $r := $csv }}
       <tr>
         <td>{{ index $r 0 }}</td>
         <td>{{ index $r 1 }}</td>
