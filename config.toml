@@ -20,6 +20,7 @@ pygmentsUseClasses = true
   startLevel = 1
 
 [params]
+  BookTheme = 'auto'
   # (Optional, default true) Controls table of contents visibility on right side of pages.
   # Start and end levels can be controlled with markup.tableOfContents setting.
   # You can also specify this parameter per page in front matter.
@@ -84,4 +85,4 @@ pygmentsUseClasses = true
   # 4. Add an import to the new stylesheet in _custom.scss:
   # @import "scriptstyle";
 
-  BookLogo = "logo.jpg"
+  BookLogo = "logo.png"

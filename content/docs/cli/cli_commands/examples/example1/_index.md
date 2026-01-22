@@ -1,9 +1,9 @@
 ---
 weight: 4
-title: "DPAPI functions"
+title: "CLI Examples"
 ---
 
-# DPAPI functions
+# CLI Examples
 
 <span style="font-size:12pt; color:red">Note that this is a living document and the following is subject to change. </span>
 
