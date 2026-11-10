@@ -74,6 +74,6 @@ Every table also records who last changed each record (`updated_by`) and when (`
 
 ## Schema Diagram
 
-The full [schema diagram](https://data.fairdatapipeline.org/static/images/schema.svg) is published by the remote data registry, and each registry generates its own when it is built. It is also included here; open it in a new tab to see it at full size:
+The full [schema diagram](https://data.fairdatapipeline.org/static/images/schema.svg) is published by the remote data registry, and each registry generates its own when it is built. It is also included here; use the magnifying glass to enlarge it, and click the enlarged diagram to see it at full size:
 
 ![schema](/docs/data_registry/schema.svg)
