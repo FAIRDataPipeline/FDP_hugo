@@ -6,23 +6,23 @@ bookCollapseSection: false
 
 # `fair` CLI Local Command(s)
 
-By default the CLI requires a [remote registry]({{< relref "/docs/data_registry/remote_registry/" >}}), however the CLI can run without a remote registry using the `--local` flag.
+By default the CLI expects a [remote registry]({{< relref "/docs/data_registry/remote_registry/" >}}), however it can run without one using the `--local` flag, which is useful on closed systems.
 
-N.B. the CLI currently requires internet access to work regardless of whether you are using a [remote registry]({{< relref "/docs/data_registry/remote_registry/" >}}).
+N.B. `fair pull` still needs internet access to download anything listed under `register:` from its original source.
 
 ## The `--local` flag
 
 The following commands support the local flag:
 
-`fair init`
-
-`fair pull`
-
-`fair run`
+- `fair init`
+- `fair pull`
+- `fair run`
+- `fair find`
+- `fair identify`
 
 ## A local workflow example
 
-With the latest version of the [fair cli]() and a [modelling api]() installed the following is an example of a locally run workflow (without the need of a [remote registry]({{< relref "/docs/data_registry/remote_registry/" >}}))
+With the [FAIR CLI]({{< relref "/docs/cli/installation" >}}) and a [modelling API]({{< relref "/docs/api" >}}) installed, the following runs a model without a remote registry:
 
 ```
 fair init --local
@@ -30,9 +30,9 @@ fair pull --local config.yaml
 fair run --local config.yaml
 ```
 
-N.B. a remote registry can be added later by running `fair remote add`.
+A remote registry can be added later by running `fair remote add`, giving a file containing your API token for that registry.
 
 For example:
 ```
-fair remote add https://data.fairdatapipleine.org/api/
+fair remote add https://data.fairdatapipeline.org/api/ --token /path/to/token
 ```

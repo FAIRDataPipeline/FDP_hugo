@@ -18,9 +18,9 @@ To install and run the local registry on windows the following dependencies are 
 
   - [Chocolatey](https://chocolatey.org/)
     
-Once Chocolatety is installed the following dependencies can be installed using chocolatey:
+Once Chocolatey is installed the following dependencies can be installed using chocolatey:
     
-      - [Python 3](https://community.chocolatey.org/packages/python/3.9.7)
+      - [Python 3.10 or later](https://community.chocolatey.org/packages/python)
       - [Curl](https://community.chocolatey.org/packages/curl)
       - [Git](https://community.chocolatey.org/packages/git)
 
@@ -69,7 +69,7 @@ localregistry.bat
 This will install the registry and all the related files will be stored in `C:\Users\<username>\.fair`
 
 To run the server, run the `C:\Users\<username>\.fair\registry\scripts\start_fair_registry_windows.bat` script, this will spawn the server in a new window.
-Navigate to http://localhost:8000 in you browser to check the server is up and running. A token will be automatically generated in `C:\Users\<username>\.fair\registry\token`.
+Navigate to http://localhost:8000 in your browser to check the server is up and running. A token will be automatically generated in `C:\Users\<username>\.fair\registry\token`.
 
 To stop the server switch to the server window and press control + break or run: `C:\Users\<username>\.fair\registry\scripts\stop_fair_registry_windows.bat`.
 
@@ -98,7 +98,7 @@ So, the steps to follow are:
 
 and your local FAIR data registry should be running at ```http://localhost:8000/```.
 
-If you then need to get into the VM for managing the local registry, you cn use the following commands:
+If you then need to get into the VM for managing the local registry, you can use the following commands:
  ```
  vagrant ssh
  sudo su

@@ -4,32 +4,42 @@ title: "Installation"
 ---
 
 # Installation
-The remote registry is a (django)[https://www.djangoproject.com/] REST API and can easily be installed on any server which meets the following requirements.
+The remote registry is a [Django](https://www.djangoproject.com/) web application and REST API and can easily be installed on any server which meets the following requirements.
 
 ## Pre-requisites
 To install a remote registry you will require the following:
 
-A server caple of running a webserver with the following installed:
+A server capable of running a webserver with the following installed:
 
 ### [git](https://git-scm.com/downloads)
 Available through package managers such as `apt`, `brew` or `chocolatey`
 
-### [Python 3.8+](https://www.python.org/downloads/)
+### [Python 3.10+](https://www.python.org/downloads/)
 With `pip` and the `venv` module installed.
 Available through package managers such as `apt`, `brew` or `chocolatey`
 
 ### A database
-Such as `PostgreSQL`(recommended), `MariaDB`, `MySQL`, `Oracle`, `SQLite` (not recommended for production). Full database support can be found on the [django site](https://docs.djangoproject.com/en/5.0/ref/databases/)
+Such as `PostgreSQL`(recommended), `MariaDB`, `MySQL`, `Oracle`, `SQLite` (not recommended for production). Full database support can be found on the [django site](https://docs.djangoproject.com/en/5.2/ref/databases/)
 
-N.B. You may also need to install the corresponding database connector
+N.B. You may also need to install the corresponding database connector (the PostgreSQL connector, `psycopg`, is included in the registry requirements)
 
 ### [`Graphviz`](https://graphviz.org/)
-`Graphiz` is needed to create provernance reports, full installations instructions can be found on the [`Graphviz` site](https://graphviz.org/download/)
+`Graphviz` is needed to create provenance reports, full installation instructions can be found on the [`Graphviz` site](https://graphviz.org/download/)
 
 ### An S3 Object Storage
-This can be and S3 capible storage e.g. [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html), [Openstack](https://www.openstack.org/) or [Minio](https://min.io/)
+This can be any S3 compatible storage e.g. [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html), [Openstack](https://www.openstack.org/) or [SeaweedFS](https://github.com/seaweedfs/seaweedfs). The registry signs its download and upload URLs with S3 Signature Version 4, so the storage must accept SigV4 presigned URLs.
 
-If you are self hosted we would recommend using [Minio](https://min.io/)
+If you are self hosted we would recommend using [SeaweedFS](https://github.com/seaweedfs/seaweedfs), which provides an [S3 compatible API](https://github.com/seaweedfs/seaweedfs/wiki/Amazon-S3-API). A single server with the S3 gateway enabled can be started with:
+
+```
+weed server -dir=<data directory> -s3
+```
+
+The S3 gateway listens on port `8333` by default. Set up an access key and secret key as described in [S3 Credentials](https://github.com/seaweedfs/seaweedfs/wiki/S3-Credentials), then create a bucket for the registry with any S3 client, e.g. the [AWS CLI](https://docs.aws.amazon.com/cli/):
+
+```
+aws s3 mb s3://<bucket name> --endpoint-url http://localhost:8333
+```
 
 ## Installation on a Debian based system e.g. Ubuntu
 This installation guide will focus on debian based systems but can be easily adapted.
@@ -51,9 +61,9 @@ source venv/bin/activate
 ### Step 3. Install the `python` requirements
 
 ```
-pip3 install -r local-requirements.txt
+pip3 install -r requirements.txt
 ```
-***N.B.*** the local requirements match the remote requirements
+***N.B.*** the same requirements are used by the local and remote registry
 
 ### Step 4. Generate a secret key
 
@@ -92,17 +102,17 @@ Replace the `DOMAIN_URL` with your fully qualified domain url followed by a trai
 
 #### Edit `DATABASES`
 The `databases` dictionary (fields) should be modified to contain a single `default` database containing the following fields:
-`ENGINE` the engine for your database see the [django documentation](https://docs.djangoproject.com/en/5.0/ref/databases/) for more details.
+`ENGINE` the engine for your database see the [django documentation](https://docs.djangoproject.com/en/5.2/ref/databases/) for more details.
 `NAME` the database names
 `USER` username of a user with read and write access to the database
 `PASSWORD` password of the above user
 `HOST` domain or ip of the database server
-`PORT` port the databas is running on
+`PORT` port the database is running on
 
 #### Edit `BUCKETS`
 The `BUCKETS` dictionary should be modified to contain a single `default` S3 bucket containing the following fields:
 
-`url` the fully qualified URL of the S3 server e.g. `https://s3.domain.com:port/`, the port is optional if not running on the default port. For AWS the endpoint URL for different regions can be found in the [AWS documentation](https://docs.aws.amazon.com/general/latest/gr/rande.html)
+`url` the fully qualified URL of the S3 server e.g. `https://s3.domain.com:port/`, the port is optional if not running on the default port. For SeaweedFS this is the address of the S3 gateway, e.g. `https://s3.domain.com:8333/`. For AWS the endpoint URL for different regions can be found in the [AWS documentation](https://docs.aws.amazon.com/general/latest/gr/rande.html)
 
 `bucket_name` the name of the bucket
 
@@ -110,7 +120,7 @@ The `BUCKETS` dictionary should be modified to contain a single `default` S3 buc
 
 `secret_key` matching secret key to the above
 
-`duration` how long urls generated for the bucket should be valid for in seconds (default: 600)
+`duration` how long URLs generated for the bucket should be valid for in seconds (the template uses 86400, one day). An upload URL must outlive the slowest upload of the largest file, as the store refuses an upload once its URL has expired
 
 
 #### Set Up Authentication

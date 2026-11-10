@@ -18,14 +18,15 @@ run_metadata:
 write:
 - data_product: test/results/my-result
   description: test results
+  file_type: csv
 ```
 
 Your Java code then needs to read the registry token from the environment variable, and create a coderun using the *config.yaml* and *script.sh* files that will be placed in the CONFIG_DIR by [FAIR CLI][faircli]:
 
 ```
 String token = System.getenv("FDP_LOCAL_TOKEN");
-Path configFile = Path.of(args[0]).resolve("config.yaml");
-Path scriptFile = Path.of(args[0]).resolve("script.sh");
+Path configPath = Path.of(args[0]).resolve("config.yaml");
+Path scriptPath = Path.of(args[0]).resolve("script.sh");
 try(var coderun = new Coderun(configPath, scriptPath, token)) {
 	// create DP, Object_component, write results;
 }
@@ -42,4 +43,4 @@ fair run src/main/resources/config.yaml
 
 
 
-[faircli]: /docs/interface/fair_cli_dev/
+[faircli]: /docs/cli/

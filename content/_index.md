@@ -22,7 +22,7 @@ The key benefits of using the FAIR Data Pipeline are:
 
 ## Running Models
 
-To use the FAIR Data Pipeline with a piece of modelling software, you must add a language specific Pipeline API as a dependency and interact with data registered in the pipeline via the methods it presents. Each model run must be configured using a [`config.yml`](docs/interface/_index.md) file which specifies inputs and outputs by metadata.
+To use the FAIR Data Pipeline with a piece of modelling software, you must add a language specific Pipeline API as a dependency and interact with data registered in the pipeline via the methods it presents. Each model run must be configured using a [`config.yaml`]({{< relref "/docs/cli/cli_commands/examples/example1" >}}) file which specifies inputs and outputs by metadata.
 
 {{<mermaid align="left">}}
 graph LR;
@@ -31,7 +31,7 @@ graph LR;
     end
     subgraph Local API
         API[Pipeline API]
-        CY[config.yml]
+        CY[config.yaml]
     end
     subgraph localhost
         LR[Registry]

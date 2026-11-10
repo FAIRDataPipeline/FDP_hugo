@@ -17,7 +17,7 @@ From the resulting data_product we can then access either one unnamed object_com
 or any number of named object_components: `Object_component_read oc1 = dp.getComponent('ComponentName')`.
 
 
-Data in FAIR Data Pipeline internal formats (HDF5, TOML) is written to (or read from) named `Object_components`, while other file formats (such as CSV) are written to (or read from) just 1 unnamed `Object_component`.
+Data in the FAIR Data Pipeline's internal format (TOML parameter files) is written to (or read from) named `Object_components`, while other file formats (such as CSV or netCDF) are written to (or read from) just 1 unnamed `Object_component`.
 
 Here is an example of a `Coderun` writing a CSV file to one unnamed `Object_component`:
 

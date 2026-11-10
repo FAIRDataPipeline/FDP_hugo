@@ -1,0 +1,11 @@
+{{- /* Overrides the hugo-book theme's mermaid hook to accept a background colour,
+       e.g. ```mermaid {background="white"}, so a diagram stays readable in dark mode. */ -}}
+<pre class="mermaid"{{ with .Attributes.background }} style="background-color: {{ . | safeCSS }}"{{ end }}>{{ .Inner | htmlEscape | safeHTML -}}</pre>
+{{- if not (.Page.Store.Get "mermaid") -}}
+  {{- /* Include mermaid only first time */ -}}
+  <script src="{{ "mermaid.min.js" | relURL }}"></script>
+  {{- with resources.Get "mermaid.json" | minify -}}
+    <script>mermaid.initialize({{ .Content | safeJS }})</script>
+  {{- end -}}
+  {{- .Page.Store.Set "mermaid" true -}}
+{{- end -}}

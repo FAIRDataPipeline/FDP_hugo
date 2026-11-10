@@ -4,7 +4,7 @@ weight: 30
 
 # Parameters
 
-Below are examples of all the parameter types that can be written to and read from the FAIR Data Pipeline TOML parameter file format. These TOML parameter files are described on the [API](/docs/API/#toml-parameter-files) page.
+Below are examples of all the parameter types that can be written to and read from the FAIR Data Pipeline TOML parameter file format.
 
 Samples
 

@@ -4,16 +4,26 @@ title: "FAIR CLI"
 bookCollapseSection: true
 ---
 
-# Data pipeline
+# FAIR CLI
 
-The data pipeline is moving towards this new structure:
+The [FAIR CLI](https://github.com/FAIRDataPipeline/FAIR-CLI) (`fair`) is the main interface to the FAIR Data Pipeline. It is used to:
 
-![SCRC Data API design figure](scrc-api-new.svg)
+- set up a project (`fair init`) and install and manage the [local registry]({{< relref "/docs/data_registry/local_registry" >}}) (`fair registry`)
+- register and download the inputs a model run needs (`fair pull`)
+- run models, recording each run and its inputs and outputs in the local registry (`fair run`)
+- stage and synchronise results with a [remote registry]({{< relref "/docs/data_registry/remote_registry" >}}) (`fair add`, `fair push`)
 
-The API is accessed as a *session*, which corresponds in the registry to a *code run*. All reads and writes are logged directly to a local registry as the session progresses, as is the script which generates that i/o. Files are identified by their metadata, though the metadata is different for reads (where the files must exist) and writes (where they must not). The metadata is also different for *files in core pipeline data formats*, where a significant amounts of metadata are recorded, and *other arbitrary files*, where only a limited amount of data can be collected. Either type of file can be used for input or output, giving a total of four different interactions, two for input and two for output. These differences are described in more detail below.
+See [Installation]({{< relref "/docs/cli/installation" >}}) to get started and [FAIR CLI Commands]({{< relref "/docs/cli/cli_commands" >}}) for a description of each command.
 
-The underlying data to which the API refers is determined by the interaction between a yaml configuration file (referred to here as a *config.yaml* file, and described below) provided at initialisation and the state of the remote registry at the time of processing of the *config.yaml* by the download synchronisation script (which is considered to contain the definitive version of all data at that time). The specific remote registry used is itself defined in the *config.yaml* file.
+## How a run works
 
-This interaction between the configuration file and the remote registry defines the “*local filesystem data repository*” that the local pipeline interacts with. The data directory can be automatically created by a *download synchronisation script* [(currently found here)](https://github.com/ScottishCovidResponse/data_pipeline_api/tree/master/data_pipeline_api/registry) which reads the *config.yaml* file, queries the appropriate remote registry, downloads appropriate data, and populates the local registry with the relevant metadata for those data.
+![FAIR Data Pipeline design figure](scrc-api-new.svg)
 
-When a model or script is run (as a *session* / “*code run*”), any output files are written to the data directory, and those outputs are logged in the local registry, which has itself been created (or updated) by the *download synchronisation script*. The local registry can be queried to determine whether the data generated is as intended, and if so it can then by synchronised back to the remote registry. This can be carried out automatically using an *upload synchronisation script* [(currently here)](https://github.com/ScottishCovidResponse/data_pipeline_api/tree/master/data_pipeline_api/registry). When the *session* is initialised a “*run id*” is created to uniquely identify that *code run*. It is constructed by forming the SHA1 hash of the configuration file content, plus the date time string.
+A model run is configured by a user-written *config.yaml* file, which lists the data the run reads (`read:`), the data it writes (`write:`), data from outside the pipeline to register (`register:`) and the script to run (`run_metadata: script:` or `script_path:`). See the [CLI example]({{< relref "/docs/cli/cli_commands/examples/example1" >}}) for a complete config file.
+
+1. `fair pull` reads the config file, registers anything listed under `register:` in the local registry and downloads it to the local data store. Data products listed under `read:` that exist on the remote registry are pulled locally.
+2. `fair run` checks that the git repository holding the model code is clean and up to date with its remote, writes a *working config* (with variables, wildcards and versions resolved) and the submission script to a new folder in the data store, and runs the script. The script is told where that folder is by the `FDP_CONFIG_DIR` environment variable, and is given the local registry's token in `FDP_LOCAL_TOKEN`.
+3. The model calls a [language API]({{< relref "/docs/api" >}}), which reads the working config and records the *code run* in the local registry: the code repository and commit, the config file, the submission script, and every file read or written.
+4. `fair add` stages the code runs and data products to share, and `fair push` uploads their metadata to the remote registry and their files to its object store.
+
+The local registry can be browsed at any time to inspect what has been recorded, including a [provenance report]({{< relref "/docs/data_registry/prov_report" >}}) for each data product.

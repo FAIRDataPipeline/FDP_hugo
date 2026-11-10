@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="972" viewBox="0 0 840 972" font-family="'trebuchet ms', verdana, arial, sans-serif" font-size="14" role="img" aria-labelledby="title">
+  <title id="title">An end-to-end run of a model script through the FAIR Data Pipeline API</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="840" height="972" fill="white"/>
+  <g transform="translate(20,0)">
+
+  <!-- main flow arrows -->
+  <g fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)">
+    <path d="M230,120 V150"/>
+    <path d="M230,210 V240"/>
+    <path d="M230,320 V350"/>
+    <path d="M230,394 V420"/>
+    <path d="M230,500 V556"/>
+    <path d="M230,636 V666"/>
+    <path d="M230,710 V736"/>
+    <path d="M230,816 V872"/>
+    <!-- yes loops -->
+    <path d="M150,460 H12 V280 H30"/>
+    <path d="M150,776 H12 V596 H30"/>
+  </g>
+
+  <!-- raise_issue arrows (dotted) -->
+  <g fill="none" stroke="#333" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow)">
+    <path d="M430,180 H740 V400"/>
+    <path d="M430,280 H620 V400"/>
+    <path d="M430,596 H600 V500"/>
+    <path d="M760,500 V912 H430"/>
+  </g>
+
+  <!-- edge labels -->
+  <g text-anchor="middle" fill="#333">
+    <rect x="0" y="360" width="24" height="20" fill="#e8e8e8"/>
+    <text x="12" y="375">yes</text>
+    <rect x="0" y="676" width="24" height="20" fill="#e8e8e8"/>
+    <text x="12" y="691">yes</text>
+    <rect x="218" y="508" width="24" height="20" fill="#e8e8e8"/>
+    <text x="230" y="523">no</text>
+    <rect x="218" y="824" width="24" height="20" fill="#e8e8e8"/>
+    <text x="230" y="839">no</text>
+  </g>
+
+  <!-- nodes -->
+  <g fill="#ECECFF" stroke="#9370DB" stroke-width="1">
+    <rect x="30" y="20" width="400" height="100"/>
+    <rect x="30" y="150" width="400" height="60"/>
+    <rect x="30" y="240" width="400" height="80"/>
+    <polygon points="95,350 395,350 365,394 65,394"/>
+    <polygon points="230,420 310,460 230,500 150,460"/>
+    <rect x="30" y="556" width="400" height="80"/>
+    <polygon points="95,666 395,666 365,710 65,710"/>
+    <polygon points="230,736 310,776 230,816 150,776"/>
+    <rect x="30" y="872" width="400" height="80"/>
+    <rect x="540" y="400" width="260" height="100" stroke-dasharray="5 5"/>
+  </g>
+
+  <!-- node text -->
+  <g text-anchor="middle" fill="#333">
+    <text x="230" y="44"><tspan font-weight="bold">fair run</tspan> (CLI)</text>
+    <text x="230" y="64">writes the working config and submission script,</text>
+    <text x="230" y="84">sets FDP_CONFIG_DIR and FDP_LOCAL_TOKEN,</text>
+    <text x="230" y="104">then runs the submission script</text>
+
+    <text x="230" y="176"><tspan font-weight="bold">initialise</tspan>(config, script)</text>
+    <text x="230" y="196">opens a code run</text>
+
+    <text x="230" y="266"><tspan font-weight="bold">link_read</tspan>(data_product)</text>
+    <text x="230" y="286">returns the path of an input</text>
+    <text x="230" y="306">and records it as an input of the code run</text>
+
+    <text x="230" y="377">the script reads the file with its own tools</text>
+
+    <text x="230" y="465">more inputs?</text>
+
+    <text x="230" y="582"><tspan font-weight="bold">link_write</tspan>(data_product)</text>
+    <text x="230" y="602">returns a path* to write an output to</text>
+    <text x="230" y="622">and records it as an output of the code run</text>
+
+    <text x="230" y="693">the script writes the file with its own tools</text>
+
+    <text x="230" y="781">more outputs?</text>
+
+    <text x="230" y="898"><tspan font-weight="bold">finalise</tspan>()</text>
+    <text x="230" y="918">hashes and stores the outputs, and registers them</text>
+    <text x="230" y="938">with the code run in the local registry</text>
+
+    <text x="670" y="426"><tspan font-weight="bold">raise_issue</tspan>(...)†</text>
+    <text x="670" y="446">optionally records issues with</text>
+    <text x="670" y="466">inputs, outputs, the config, the</text>
+    <text x="670" y="486">submission script or the code</text>
+  </g>
+  </g>
+</svg>
