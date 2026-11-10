@@ -72,6 +72,14 @@ pygmentsUseClasses = true
   # Theme will print warning if page referenced in markdown does not exists.
   BookPortableLinks = true
 
+  # (Optional, default false) Open external links in markdown pages in a new tab.
+  BookExternalLinksNewTab = true
+
+  # (Optional, default none) Paths on this site that are part of the book. When set, links to
+  # any other path on this site, except the home page, count as external, e.g. the generated
+  # package documentation at /pyDataPipeline/.
+  BookInternalPaths = ['/docs/']
+
   # /!\ This is an experimental feature, might be removed or changed at any time
   # (Optional, experimental, default false) Enables service worker that caches visited pages and resources for offline use.
   BookServiceWorker = true
